@@ -26,6 +26,14 @@ abstract class AbstractIO implements IOControlInterface
     }
 
     /**
+     * @param EncoderInterface $encoder
+     */
+    protected function setEncoder(EncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
+    /**
      * @param Request $request
      * @return array
      * @throws BadRequestHttpException

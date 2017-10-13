@@ -28,7 +28,7 @@ class API extends AbstractIO
         EncoderInterface $encoder,
         QueryEngineParser $queryEngineParser
     ) {
-        $this->encoder = $encoder;
+        $this->setEncoder($encoder);
         $this->queryEngineParser = $queryEngineParser;
     }
 
@@ -79,6 +79,29 @@ class API extends AbstractIO
             $data[] = $object->getSerialized();
         }
         
+        return $this->getResponse($data, $status, $headers);
+    }
+
+    /**
+     * @param DataObjectInterface[] $collection
+     * @param int $totalCount
+     * @param int $status
+     * @param array $headers
+     * @return Response
+     */
+    public function getResponseQueryEngine(
+        array $collection,
+        int $totalCount,
+        int $status = 200,
+        array $headers = []
+    ) : Response
+    {
+        $data = [];
+        foreach ($collection as $object) {
+            $data[] = $object->getSerialized();
+        }
+
+        $headers['X-Total-Count'] = $totalCount;
         return $this->getResponse($data, $status, $headers);
     }
 
