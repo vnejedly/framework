@@ -2,6 +2,7 @@
   "type": "library",
   "name": "hooloovoo/framework",
   "description": "Simple REST API framework based on ReactPHP, Symfony components and Frood DI Container",
+  "minimum-stability": "dev",
   "keywords": [
     "MVC framework",
     "REST API",
@@ -32,6 +33,7 @@
     "symfony/yaml": "^3.0",
     "hooloovoo/di": "@dev",
     "hooloovoo/config": "@dev",
-    "hooloovoo/query-engine": "@dev"
+    "hooloovoo/query-engine": "@dev",
+    "hooloovoo/orm": "@dev"
   }
 }

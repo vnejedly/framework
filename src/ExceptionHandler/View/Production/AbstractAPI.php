@@ -3,7 +3,8 @@ namespace Hooloovoo\Framework\ExceptionHandler\View\Production;
 
 use Hooloovoo\Framework\ExceptionHandler\View\AbstractCommonAPI;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface as HttpExceptionSymfony;
+use Hooloovoo\ORM\Exception\HttpExceptionInterface as HttpExceptionORM;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Throwable;
@@ -30,7 +31,10 @@ abstract class AbstractAPI extends AbstractCommonAPI
      */
     protected function getExceptionData(Throwable $throwable, int &$code = null)
     {
-        if ($throwable instanceof HttpExceptionInterface) {
+        if (
+            $throwable instanceof HttpExceptionSymfony ||
+            $throwable instanceof HttpExceptionORM
+        ) {
             $message = $throwable->getMessage();
             $code = $throwable->getStatusCode();
         } elseif ($throwable instanceof ResourceNotFoundException) {
