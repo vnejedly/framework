@@ -34,6 +34,14 @@ class SymfonyRequestConnector implements ConnectorInterface
     }
 
     /**
+     * @param int $limit
+     */
+    public function setDefaultLimit(int $limit)
+    {
+        $this->defaultLimit = $limit;
+    }
+
+    /**
      * @return string
      * @throws NoParamException
      */
