@@ -1,6 +1,7 @@
 <?php
 namespace Hooloovoo\Framework\ExceptionHandler\View;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -21,4 +22,10 @@ interface ViewInterface
      * @return Response
      */
     public function getResponse(Throwable $throwable) : Response ;
+
+    /**
+     * @param LoggerInterface $logger
+     * @param Throwable $throwable
+     */
+    public function log(LoggerInterface $logger, Throwable $throwable);
 }

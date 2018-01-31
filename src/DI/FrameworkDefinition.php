@@ -75,6 +75,7 @@ class FrameworkDefinition extends AbstractDefinitionClass
 
         $container->addFactory(HandlerFactory::class, Handler::class, function () use ($container) {
             $handlerFactory = new HandlerFactory($this->environment);
+            $handlerFactory->setLogger($container->get(LoggerInterface::class));
             $handlerFactory->addDebugView($container->get(JsonAPIDebug::class));
             $handlerFactory->addProductionView($container->get(JsonAPIProduction::class));
 

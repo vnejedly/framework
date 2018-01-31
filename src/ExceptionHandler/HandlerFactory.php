@@ -4,6 +4,7 @@ namespace Hooloovoo\Framework\ExceptionHandler;
 use Exception;
 use Hooloovoo\DI\Factory\AbstractFactory;
 use Hooloovoo\Framework\ExceptionHandler\View\ViewInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class HandlerFactory
@@ -15,6 +16,9 @@ class HandlerFactory extends AbstractFactory
 
     /** @var string */
     protected $environment;
+
+    /** @var LoggerInterface */
+    protected $logger = null;
 
     /** @var ViewInterface[] */
     protected $debugViews = [];
@@ -31,6 +35,14 @@ class HandlerFactory extends AbstractFactory
     public function __construct(string $environment)
     {
         $this->environment = $environment;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger = null)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -56,6 +68,7 @@ class HandlerFactory extends AbstractFactory
     public function getNew()
     {
         $handler = new Handler();
+        $handler->setLogger($this->logger);
 
         if ($this->environment === self::ENV_PROD) {
             $views = $this->productionViews;

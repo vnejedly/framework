@@ -2,6 +2,7 @@
 namespace Hooloovoo\Framework\ExceptionHandler;
 
 use Hooloovoo\Framework\ExceptionHandler\View\ViewInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -11,6 +12,9 @@ use Throwable;
  */
 class Handler
 {
+    /** @var LoggerInterface */
+    protected $logger = null;
+
     /** @var string */
     protected $defaultContentType = 'application/json';
 
@@ -28,6 +32,14 @@ class Handler
     }
 
     /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger = null)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * @param Throwable $throwable
      * @param Request $request
      * @return Response
@@ -40,6 +52,11 @@ class Handler
         }
 
         $view = $this->getView($contentType);
+
+        if (!is_null($this->logger)) {
+            $view->log($this->logger, $throwable);
+        }
+
         return $view->getResponse($throwable);
     }
 

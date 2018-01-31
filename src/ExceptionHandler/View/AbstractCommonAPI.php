@@ -2,6 +2,10 @@
 namespace Hooloovoo\Framework\ExceptionHandler\View;
 
 use Hooloovoo\Framework\Encoder\EncoderInterface;
+use Hooloovoo\ORM\Exception\HttpExceptionInterface as HttpExceptionORM;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface as HttpExceptionSymfony;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * Class AbstractCommonAPI
@@ -12,6 +16,22 @@ abstract class AbstractCommonAPI implements ViewInterface
 
     /** @var EncoderInterface */
     protected $encoder;
+
+    /**
+     * @param LoggerInterface $logger
+     * @param Throwable $throwable
+     */
+    public function log(LoggerInterface $logger, Throwable $throwable)
+    {
+        if (
+            $throwable instanceof HttpExceptionSymfony |
+            $throwable instanceof HttpExceptionORM
+        ) {
+            $logger->info($throwable->getMessage());
+        } else {
+            $logger->error($throwable->getMessage());
+        }
+    }
 
     /**
      * @return string[]
