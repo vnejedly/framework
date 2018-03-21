@@ -12,6 +12,7 @@ use Psr\Log\LoggerInterface;
 class HandlerFactory extends AbstractFactory
 {
     const ENV_PROD = 'prod';
+    const ENV_STAGE = 'stage';
     const ENV_DEV = 'dev';
 
     /** @var string */
@@ -70,7 +71,10 @@ class HandlerFactory extends AbstractFactory
         $handler = new Handler();
         $handler->setLogger($this->logger);
 
-        if ($this->environment === self::ENV_PROD) {
+        if (
+            $this->environment === self::ENV_PROD ||
+            $this->environment === self::ENV_STAGE
+        ) {
             $views = $this->productionViews;
         } elseif ($this->environment === self::ENV_DEV) {
             $views = $this->debugViews;
