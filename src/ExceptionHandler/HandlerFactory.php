@@ -14,6 +14,7 @@ class HandlerFactory extends AbstractFactory
     const ENV_PROD = 'prod';
     const ENV_STAGE = 'stage';
     const ENV_DEV = 'dev';
+    const ENV_DEBUG = 'debug';
 
     /** @var string */
     protected $environment;
@@ -73,10 +74,11 @@ class HandlerFactory extends AbstractFactory
 
         if (
             $this->environment === self::ENV_PROD ||
-            $this->environment === self::ENV_STAGE
+            $this->environment === self::ENV_STAGE ||
+            $this->environment === self::ENV_DEV
         ) {
             $views = $this->productionViews;
-        } elseif ($this->environment === self::ENV_DEV) {
+        } elseif ($this->environment === self::ENV_DEBUG) {
             $views = $this->debugViews;
         } else {
             throw new Exception("Unknown environment '{$this->environment}'");
